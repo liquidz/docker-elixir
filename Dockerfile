@@ -12,8 +12,10 @@ RUN apt-get update -qq \
        locales
 
 RUN mkdir -p /usr/local/src
-ADD http://www.erlang.org/download/otp_src_${OTP_VERSION}.tar.gz \
-    /usr/local/src
+WORKDIR /usr/local/src
+RUN wget http://www.erlang.org/download/otp_src_${OTP_VERSION}.tar.gz \
+    && tar xvf otp_src_${OTP_VERSION}.tar.gz
+    && rm -rf otp_src_${OTP_VERSION}.tar.gz
 WORKDIR /usr/local/src/otp_src_${OTP_VERSION}
 RUN ./configure && make && make install
 
